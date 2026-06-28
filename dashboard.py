@@ -12,21 +12,20 @@ st.markdown("Dados extraídos em tempo real via API do IBGE")
 # --- CONSUMO DE DADOS (API IBGE) ---
 @st.cache_data
 def carregar_dados():
-    # Consome a API de municípios do IBGE
-    url = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
-    response = requests.get(url)
-    dados_api = response.json()
+    # 1. Lê o arquivo que você subiu no GitHub. 
+    # (Ajuste o nome do arquivo se o seu não for 'municipios.csv')
+    df_local = pd.read_csv("atividade_1/municipios.csv")
     
-    # Tratamento dos dados para estruturar o DataFrame
-    linhas = []
-    for item in dados_api:
-        linhas.append({
-            "municipio": item["nome"],
-            "uf": item["microrregiao"]["mesorregiao"]["UF"]["sigla"],
-            "regiao": item["microrregiao"]["mesorregiao"]["UF"]["regiao"]["nome"]
-        })
-    return pd.DataFrame(linhas)
-
+    # 2. Padroniza as colunas para o resto do dashboard funcionar.
+    # ATENÇÃO: Substitua os nomes da direita pelos nomes exatos das colunas do SEU arquivo!
+    df_formatado = pd.DataFrame({
+        "municipio": df_local["nome_da_coluna_de_municipios"], # ex: df_local["Nome_Municipio"]
+        "uf": df_local["nome_da_coluna_de_estados"],          # ex: df_local["Sigla_UF"]
+        "regiao": df_local["nome_da_coluna_de_regioes"]       # ex: df_local["Regiao"]
+    })
+    
+    return df_formatado
+    
 df = carregar_dados()
 
 # --- COMPONENTE 1: CARDS (3 KPIs) ---
