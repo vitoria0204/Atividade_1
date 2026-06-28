@@ -14,7 +14,7 @@ st.markdown("Dados extraídos localmente do arquivo CSV")
 def carregar_dados():
     # SOLUÇÃO DO FILENOTFOUND: Descobre dinamicamente a pasta onde o script está rodando
     caminho_atual = os.path.dirname(__file__)
-    caminho_csv = os.path.join(caminho_atual, "municipios.csv")
+    caminho_csv = os.path.join(caminho_atual, "municipio.csv")
     
     # Carrega o CSV do usuário
     df_local = pd.read_csv(caminho_csv)
